@@ -13,11 +13,10 @@ class Profile(AbstractUser):
 
 
 class Chat(models.Model):
-    chat = models.CharField(max_length=128, unique=True, default=shortuuid.uuid)
     chat_name = models.CharField(max_length=128, null=True, blank=True)
-    chat_admin = models.ForeignKey(Profile, related_name='chat_admin', blank=True, null=True, on_delete=models.CASCADE)
+    chat_admins = models.ManyToManyField(Profile, related_name='chat_admins', blank=True)
     chat_members = models.ManyToManyField(Profile, related_name='chat_members', blank=True)
-    is_private = models.BooleanField(default=False)
+    one_on_one = models.BooleanField(default=False)
 
 
 class Message(models.Model):

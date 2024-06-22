@@ -10,18 +10,26 @@
 
 <body>
   <div>
-    <h1>Chat Room</h1>
-    <p>User:
-    {% if user.is_authenticated %}
-    {{ user.username }}
-    {% else %}
-    Anonymous
-    {% endif %}
+    <h1>{{ chat_type }}: {{ chat_name }}</h1>
+
+    <h2>Logged In As User "{{ user.username }}"</h2>
+
+    <h3>Admins</h3>
+    <p>
+    {% for admin in chat_admins %}
+      {{ admin.nickname }}{% if not forloop.last %}, {% endif %}
+    {% endfor %}
     </p>
-    {% if user.is_authenticated %}
-      <!-- Logout Button -->
-      <a href="{% url 'logout' %}"><button>Logout</button></a>
-    {% endif %}
+
+    <h3>Members</h3>
+    <p>
+    {% for member in chat_members %}
+      {{ member.nickname }}{% if not forloop.last %}, {% endif %}
+    {% endfor %}
+    </p>
+
+    <!-- Select Chat Button -->
+    <a href="{% url 'select_chat' %}"><button>Back to Chat Selection </button></a>
   </div>
 
   {% if user.is_authenticated %}
@@ -32,7 +40,12 @@
 
   <div id="messages"></div>
 
-    <script src="{% static 'script.js' %}"></script>
-    <script src="{% static 'create_chatroom.js' %}"></script>
+  <script>
+  // Set the senderName in localStorage
+  localStorage.setItem('senderName', '{{ user.username }}');
+  </script>
+
+  <script src="{% static 'script.js' %}"></script>
+
 </body>
 </html>

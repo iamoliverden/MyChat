@@ -145,7 +145,7 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-LOGIN_REDIRECT_URL = 'chat'
+LOGIN_REDIRECT_URL = 'select_chat'
 ACCOUNT_SIGNUP_REDIRECT_URL = 'profile'
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

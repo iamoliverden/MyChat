@@ -1,12 +1,21 @@
-<!-- login.html -->
+<!-- logout.html -->
 
 {% load static %}
 
-{% block content %}
-  <h2>Login</h2>
-  <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Login</button>
-  </form>
-{% endblock %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+</head>
+<body>
+    <div id="content" align="center">
+        <form method="post">
+            {% csrf_token %}
+            <h2>Login</h2>
+            <input type="text" placeholder="Username" id="username" name="username">
+            <input type="password" placeholder="Password" id="password" name="password">
+            <button type="submit">Login</button>
+        </form>
+    </div>
+</body>
+</html>
