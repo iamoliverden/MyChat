@@ -1,7 +1,6 @@
 # models.py
 
 from django.db import models
-import shortuuid
 from django.contrib.auth.models import AbstractUser
 
 
@@ -9,7 +8,14 @@ from django.contrib.auth.models import AbstractUser
 class Profile(AbstractUser):
     image = models.ImageField(upload_to='profile_pictures/', null=True, blank=True)
     nickname = models.CharField(max_length=20, null=True, blank=True)
-    info = models.TextField(null=True, blank=True)
+    personal_information = models.TextField(null=True, blank=True)
+
+    @property
+    def full_name(self):
+        if self.first_name and self.last_name:
+            return f"{self.first_name} {self.last_name}"
+        else:
+            return "Anonymous User"
 
 
 class Chat(models.Model):

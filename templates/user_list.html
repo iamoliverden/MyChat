@@ -1,0 +1,60 @@
+<!-- user_list.html -->
+
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User List</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+    <style>
+        body {
+            margin-left: 50px; /* Move body to the right by 50px */
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <h1>User List</h1>
+
+        <button class="back-to-chat" onclick="location.href='{% url 'select_chat' %}'">Back to Chat Selection</button>
+
+        <div class="user-list">
+            {% for user in users %}
+            <div class="user-profile">
+                <div class="user-profile-picture">
+                    {% if user.image %}
+                    <img src="{{ user.image.url }}" alt="Profile Picture">
+                    {% else %}
+                    <p>No picture</p>
+                    {% endif %}
+                </div>
+                <div class="user-info">
+                    <h3>Nickname: {{ user.nickname }}</h3>
+                    <p>Full Name: {{ user.full_name }}</p>
+                    <p>Personal Info: {{ user.personal_information }}</p>
+                    <div class="common-chats">
+                        {% if user != request.user %}
+                            <p>Common Chats:</p>
+                            <ul>
+                                {% for chat in common_chats %}
+                                    <li class="chat-link" data-chat-id="{{ chat.id }}">{{ chat.chat_name }}</li>
+                                {% empty %}
+                                    <li>No common chats found.</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <p>No users found.</p>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Include select_chat.js for navigation -->
+    <script src="{% static 'select_common_chat.js' %}"></script>
+</body>
+</html>

@@ -7,7 +7,7 @@ from .models import *
 class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
-        fields = ['id', 'username', 'email', 'image', 'nickname', 'info']
+        fields = ['id', 'username', 'email', 'image', 'nickname', 'personal_information']
 
 
 class ChatSerializer(serializers.ModelSerializer):

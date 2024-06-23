@@ -11,16 +11,23 @@
 <body>
   <div>
     <h1>Select a Chat Room</h1>
-    <p>User:
     {% if user.is_authenticated %}
-    {{ user.username }}
-    {% else %}
-    Anonymous
-    {% endif %}
-    </p>
-    {% if user.is_authenticated %}
+      <div class="user-profile-picture">
+      {% if user.image %}
+        <img src="{{ user.image.url }}" alt="User profile picture">
+          {% else %}
+          <p>No profile picture found.</p>
+      {% endif %}
+      </div>
+      <p>User: {{ user.username }}</p>
+      <!-- Edit Profile Button -->
+      <a href="{% url 'edit_profile' %}"><button class="button">Edit Profile</button></a>
+      <!-- View User List Button -->
+      <a href="{% url 'user_list' %}"><button class="button">View User List</button></a>
       <!-- Logout Button -->
-      <a href="{% url 'logout' %}"><button>Logout</button></a>
+      <a href="{% url 'logout' %}"><button class="logout-button">Logout</button></a>
+    {% else %}
+      <p>User: Anonymous</p>
     {% endif %}
   </div>
 

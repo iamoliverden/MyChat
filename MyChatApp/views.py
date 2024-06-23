@@ -7,18 +7,16 @@ from django.contrib.auth import logout
 
 from django.db.models import Q
 
-from .models import Profile, Chat, Message
+from .models import *
 from .serializers import ProfileSerializer, ChatSerializer, MessageSerializer
 
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 
-
-from django.views.generic.edit import UpdateView, DeleteView
-from django.urls import reverse_lazy
 from .models import Profile
-from .forms import *
 
+from django.shortcuts import render, redirect
+from .forms import ProfileForm
 
 
 class ProfileViewSet(mixins.CreateModelMixin,
@@ -69,11 +67,9 @@ def chat(request):
         return render(request, 'chat.html', {'chats': chats})
 
 
-
 def logout_view(request):
     logout(request)
     return redirect('login')
-
 
 
 @login_required
@@ -83,6 +79,7 @@ def select_chat(request):
 
 
 from django.http import JsonResponse
+
 
 @login_required
 def chat_details(request, chat_id):
@@ -101,3 +98,43 @@ def chat_details(request, chat_id):
     }
     return render(request, 'chat.html', context)
 
+
+
+
+@login_required
+def edit_profile(request):
+    if request.method == 'POST':
+        form = ProfileForm(request.POST, request.FILES, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect('select_chat')
+    else:
+        form = ProfileForm(instance=request.user)
+    return render(request, 'edit_profile.html', {'form': form})
+
+
+from django.db.models import Q
+
+from django.db.models import Q
+from django.shortcuts import render
+from .models import Profile, Chat
+from django.contrib.auth.decorators import login_required
+
+
+@login_required
+def user_list(request):
+    all_users = Profile.objects.exclude(id=request.user.id).all()
+
+    # Filter chats where either the logged-in user is a member or admin,
+    # and where any of the other users in all_users are members or admins.
+    common_chats = Chat.objects.filter(
+        (Q(chat_members=request.user) | Q(chat_admins=request.user)) &
+        (Q(chat_members__in=all_users) | Q(chat_admins__in=all_users))
+    ).distinct()
+
+    context = {
+        'users': all_users,
+        'common_chats': common_chats
+    }
+
+    return render(request, 'user_list.html', context)

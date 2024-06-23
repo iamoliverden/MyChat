@@ -5,11 +5,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/chat_styles.css' %}">
 </head>
 
 <body>
-  <div>
+  <div class="chat-container">
     <h1>{{ chat_type }}: {{ chat_name }}</h1>
 
     <h2>Logged In As User "{{ user.username }}"</h2>
@@ -30,19 +30,19 @@
 
     <!-- Select Chat Button -->
     <a href="{% url 'select_chat' %}"><button>Back to Chat Selection </button></a>
+
+    {% if user.is_authenticated %}
+      <form id="form" style="width: calc(100%);">
+        <input type="text" name="message" autocomplete="off" placeholder="Type your message..." style="width: calc(100% - 80px);" />
+      </form>
+    {% endif %}
+
+    <div id="messages" style="width: calc(100%);"></div>
   </div>
 
-  {% if user.is_authenticated %}
-    <form id="form">
-      <input type="text" name="message" autocomplete="off" />
-    </form>
-  {% endif %}
-
-  <div id="messages"></div>
-
   <script>
-  // Set the senderName in localStorage
-  localStorage.setItem('senderName', '{{ user.username }}');
+    // Set the senderName in localStorage
+    localStorage.setItem('senderName', '{{ user.username }}');
   </script>
 
   <script src="{% static 'script.js' %}"></script>

@@ -1,0 +1,12 @@
+venv/
+
+.idea/
+
+/MyChat/authorization_keys.py
+
+MyChatApp/migrations
+
+static/images
+
+static/favicon.ico
+
