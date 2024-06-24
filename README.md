@@ -28,6 +28,13 @@ The project is supplied with a database containing test users. For the convenien
 | croissant | croissant |
 | admin     | admin     |
 
+
+To start viewing the project, you need to log in first, as all chat pages are only accessible to logged-in users.
+
+Login link: [http://127.0.0.1:8000/mychat/login/](http://127.0.0.1:8000/mychat/login/)
+
+Alternatively, you can log in through the admin panel as an administrator.
+
 ## Contact
 
 For any queries or further information, feel free to reach out at `iamoliverden@pm.me`.
